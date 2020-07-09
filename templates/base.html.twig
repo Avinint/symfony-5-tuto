@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+        <script src="https://kit.fontawesome.com/ecf30fb7eb.js" crossorigin="anonymous"></script>
+    {% endblock %}
+</head>
+<body class="bg-light">
+
+{% include 'navbar.html.twig' %}
+
+<main role="main" class="container">
+    <div class="my-3 p-3 bg-white rounded box-shadow">
+        {% block body %}
+        {% endblock %}
+    </div>
+</main>
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {% if is_granted('ROLE_USER') %}
+        <script>
+            function fetchNotificationCount() {
+                fetch('{{ path('notification_unread') }}', {'credentials': 'include'}).then(function (response) {
+                    response.json().then(function(json) {
+                        document.getElementById('notification-count').innerText = json.count;
+                        setTimeout(fetchNotificationCount, 5000);
+                    });
+
+                }).catch(function(reason) {
+
+                });
+            }
+            fetchNotificationCount();
+        </script>
+    {% endif %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,8 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+    A confirmation email has been sent to you when you registered. You need to click on confirmation link to make your account active.
+    Please click on <a href="{{ path('security_send_confirmation', {'username': username}) }}">link</a> if you need a new confirmation email
+{% endblock %}
